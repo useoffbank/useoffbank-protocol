@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offbank | Quiet money on Solana</title>
+<meta name="description" content="Offbank is a sealed vault for Solana funds. Hold, send and prove results while the public ledger sees noise.">
+<link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+<link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+<meta property="og:title" content="Offbank">
+<meta property="og:description" content="Quiet money on Solana.">
+<meta property="og:image" content="./assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="./tokens.css">
+<link rel="stylesheet" href="./styles.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<a href="#main" class="skip">Jump ahead</a>
+
+<header class="top" id="top">
+  <div class="ca-strip" id="ca-strip">
+    <span class="ca-tag">CA</span>
+    <button type="button" class="ca-btn" id="ca-btn" data-ca aria-live="polite"></button>
+    <span class="ca-fb" id="ca-fb" role="status"></span>
+  </div>
+  <div class="nav-row">
+    <div class="container-k nav-in">
+      <a href="#home" class="brand" aria-label="Offbank home">
+        <img src="./assets/logo-512.png" alt="Offbank logo" width="30" height="30" class="brand-logo">
+        <span class="brand-word">Offbank</span>
+      </a>
+      <nav class="nav" aria-label="Sections">
+        <a href="#market">Board</a><a href="#vault">Vault</a><a href="#features">Features</a><a href="#proof">Proof</a><a href="#faq">FAQ</a>
+      </nav>
+      <div class="socials" id="socials"></div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<section id="home" class="hero">
+  <div class="mesh" aria-hidden="true">
+    <i class="blob b1 plx" data-depth="0.5"></i><i class="blob b2 plx" data-depth="0.9"></i><i class="blob b3 plx" data-depth="1.3"></i>
+    <img class="float-mark plx" data-depth="1.8" src="./assets/mark-512.png" alt="" width="220" height="220">
+  </div>
+  <div class="ascii-wrap" aria-hidden="true"><canvas id="ascii-hero"></canvas></div>
+  <div class="container-k hero-in">
+    <div class="hero-copy">
+      <div class="reveal" data-mode="appear" data-delay="0" data-y="72" data-blur="6"><a class="pill" href="#market"><span class="live-dot"></span><span id="status-text">Market feed live</span></a></div>
+      <h1 class="h1-k reveal" data-mode="appear" data-delay=".1" data-y="72" data-blur="6">Hold quietly. <span>Move unseen.</span></h1>
+      <p class="body-k reveal" data-mode="appear" data-delay=".2" data-y="72" data-blur="6">Offbank seals Solana funds inside a vault. Park them, ship them, settle; outsiders read static.</p>
+      <div class="cta reveal" data-mode="appear" data-delay=".3" data-y="72" data-blur="6">
+        <a href="#market" class="btn-k btn-lg btn-primary">Open the board</a>
+        <a href="#vault" class="btn-k btn-lg btn-tertiary">Inside the vault</a>
+      </div>
+    </div>
+    <div class="stage reveal" data-mode="appear" data-delay=".45" data-y="72" data-blur="6">
+      <div class="composer-wrap"><div class="composer spot">
+        <div class="composer-in"><div class="typed"><span id="typed"></span><span class="caret"></span></div>
+          <div class="composer-bar"><div class="chips"><span class="chip"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><span class="chip"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12h14M13 6l6 6-6 6"/></svg></span></div>
+          <span class="chip chip-go"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span></div>
+        </div>
+      </div></div>
+      <div class="frame">
+        <div class="frame-bar"><span class="url"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>offbank.xyz/vault</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="mock mock-home">
+          <div class="acct spot"><img src="./assets/mark-128.png" alt="" width="40" height="40"><div><b>Vault 0427</b><small>Sealed. Your eyes only.</small></div><span class="mask">&bull;&bull;&bull;&bull; SOL</span></div>
+          <div class="acts">
+            <div class="act spot"><i class="av">A</i><div><b>@nightowl</b><small>Inbound &bull;&bull;&bull;&bull; USDC</small></div></div>
+            <div class="act spot"><i class="av">K</i><div><b>@kitefund</b><small>Invoice settled</small></div></div>
+            <div class="act spot"><i class="av">R</i><div><b>Card</b><small>Topped up</small></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fade-bottom" aria-hidden="true"></div>
+</section>
+
+<div class="ticker" id="ticker" aria-label="Live ticker" data-market><div class="ticker-track" id="ticker-track"></div></div>
+
+<section class="strip">
+  <div class="container-k">
+    <p class="strip-label reveal">RUNNING ON OPEN INFRASTRUCTURE</p>
+    <div class="strip-grid">
+      <div class="reveal"><span class="wm"><i class="tile">S</i>Solana</span></div>
+      <div class="reveal"><span class="wm"><i class="tile">D</i>DexScreener</span></div>
+      <div class="reveal"><span class="wm"><i class="tile">P</i>pump.fun</span></div>
+      <div class="reveal"><span class="wm"><i class="tile">N</i>PublicNode</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="market" class="sec">
+  <div class="container-k">
+    <div class="head">
+      <div class="reveal" data-y="24"><span class="label-k dot-label">Live board</span></div>
+      <h2 class="h2-k reveal" data-delay=".1">Ten tokens drawing the heaviest boosts</h2>
+      <p class="body-k reveal" data-delay=".2">Solana's loudest ten, refreshed each minute. Slot one belongs to our token.</p>
+    </div>
+    <div class="board reveal" id="board" data-market>
+      <div class="board-head"><span>#</span><span>Token</span><span class="r">Price</span><span class="r">24h</span><span class="r">Volume</span><span class="r">Liquidity</span></div>
+      <div id="rows"></div>
+      <div class="board-foot"><span class="err" id="err" hidden></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="vault" class="sec sec-vault">
+  <div class="container-k vault-grid">
+    <div>
+      <div class="reveal"><div role="tablist" class="tabs" aria-label="Vault modes" id="tabs">
+        <span class="pill-ind" id="pill-ind" aria-hidden="true"></span>
+        <button role="tab" type="button" id="tab-0" aria-controls="panel-0" aria-selected="true"><span class="n">1</span><span class="t">Hold</span></button>
+        <button role="tab" type="button" id="tab-1" aria-controls="panel-1" aria-selected="false"><span class="n">2</span><span class="t">Send</span></button>
+        <button role="tab" type="button" id="tab-2" aria-controls="panel-2" aria-selected="false"><span class="n">3</span><span class="t">Prove</span></button>
+      </div></div>
+      <div class="tab-copy reveal">
+        <div role="tabpanel" id="panel-0" aria-labelledby="tab-0" class="tp on"><h3 class="h3-k">A vault without windows</h3><p class="body-k">Your key guards the funds. Strangers meet a sealed door, unmarked.</p><ul class="ticks"><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Single key, yours</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Amounts hidden unless unmasked</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Panic code unlocks a decoy</li></ul></div>
+        <div role="tabpanel" id="panel-1" aria-labelledby="tab-1" class="tp" hidden><h3 class="h3-k">Settle by name</h3><p class="body-k">Enter a handle plus an amount. Recipient reads it; observers get noise.</p><ul class="ticks"><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Names or vault digits</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Figures stay sealed</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Receipts when asked</li></ul></div>
+        <div role="tabpanel" id="panel-2" aria-labelledby="tab-2" class="tp" hidden><h3 class="h3-k">Reveal outcomes, never holdings</h3><p class="body-k">Finished positions convert to proof cards carrying gain plus duration. Neither wallet nor size appears.</p><ul class="ticks"><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Brief verification code</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Wallet plus size omitted</li><li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Open to public checking</li></ul></div>
+      </div>
+    </div>
+    <div class="reveal" data-y="40">
+      <div class="frame">
+        <div class="frame-bar"><span class="url"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>offbank.xyz/vault</span><span class="dots"><i></i><i></i><i></i></span></div>
+        <div class="mock mock-tabs" id="mock-tabs">
+          <div class="mp on"><div class="big spot"><small>Vault balance</small><b>&bull;&bull;&bull;&bull;&bull;&bull; SOL</b><span class="bars"><i></i><i></i><i></i><i></i></span></div><div class="row2"><div class="mini spot"><small>Key</small><b>Signed locally</b></div><div class="mini spot"><small>View</small><b>Masked</b></div></div></div>
+          <div class="mp"><div class="big spot"><small>To</small><b>@nightowl</b><span class="sum">Sum sealed &bull;&bull;&bull;&bull;</span></div><div class="row2"><div class="mini spot"><small>Route</small><b>Shared cover</b></div><div class="mini spot"><small>Receipt</small><b>On demand</b></div></div></div>
+          <div class="mp"><div class="big spot"><small>Closed position</small><b class="gain">+212%</b><span class="sum">Size hidden &bull; Code R7QK-4M</span></div><div class="row2"><div class="mini spot"><small>Wallet</small><b>Not shown</b></div><div class="mini spot"><small>Status</small><b>Verified</b></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="sec">
+  <div class="container-k">
+    <div class="head">
+      <div class="reveal" data-y="24"><span class="label-k dot-label">Capabilities</span></div>
+      <h2 class="h2-k reveal" data-delay=".1" data-y="40">Walls that leak nothing</h2>
+      <p class="body-k reveal" data-delay=".2" data-y="40">Teller-window essentials without open-ledger exposure.</p>
+    </div>
+    <div class="bento">
+      <article class="card-k spot c7 reveal" data-y="40"><div class="card-top"><svg viewBox="0 0 24 24"><path d="M4 12h14M13 6l6 6-6 6"/></svg><h3>Sealed transfers</h3></div><div class="viz viz-a"><span class="vz"><i></i><i></i><i></i><i></i></span></div><div class="card-bot"><p class="t">Handle payments, single line</p><p class="body-k">Target a social name or vault digits. Only sender and receiver view the figure.</p></div></article>
+      <article class="card-k spot c5 reveal" data-y="40"><div class="card-top"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M3 10h18"/></svg><h3>Holdings-to-card funding</h3></div><div class="viz viz-b"><span class="vz"><i></i><i></i><i></i><i></i></span></div><div class="card-bot"><p class="t">Spend your holdings</p><p class="body-k">Pick any token, enter an amount, approve once. Conversion happens en route.</p></div></article>
+      <article class="card-k spot c5 reveal" data-y="40"><div class="card-top"><svg viewBox="0 0 24 24"><circle cx="9" cy="12" r="5"/><circle cx="15" cy="12" r="5"/></svg><h3>Shared cover</h3></div><div class="viz viz-c"><span class="vz"><i></i><i></i><i></i><i></i></span></div><div class="card-bot"><p class="t">Many vaults, one crowd</p><p class="body-k">Every vault's traffic is blended; a lone trail cannot be isolated.</p></div></article>
+      <article class="card-k spot c7 reveal" data-y="40"><div class="card-top"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></svg><h3>Proof cards</h3></div><div class="viz viz-d"><span class="vz"><i></i><i></i><i></i><i></i></span></div><div class="card-bot"><p class="t">Broadcast gains, keep specifics</p><p class="body-k">Finished positions become cards listing gain plus duration. Brief codes allow independent confirmation.</p></div></article>
+    </div>
+    <div class="trio">
+      <article class="card-k spot p6 reveal" data-y="40"><i class="ico"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3A4 4 0 0 0 11 18.700l1-1"/></svg></i><p class="t">Invoice URLs</p><p class="body-k">Collect funds; no address ever posted.</p></article>
+      <article class="card-k spot p6 reveal" data-y="40"><i class="ico"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg></i><p class="t">Step trace</p><p class="body-k">Every action itemises stages, fees, current resting place.</p></article>
+      <article class="card-k spot p6 reveal" data-y="40"><i class="ico"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></i><p class="t">Decoy code</p><p class="body-k">Alternate code reveals a staged empty vault; the genuine one remains concealed.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-quote">
+  <div class="container-k quote-grid">
+    <div>
+      <p class="quote reveal">&ldquo;Open wallets are glass houses. Ours has walls.&rdquo;</p>
+      <p class="by reveal">The Offbank crew</p>
+      <div class="stats-2 reveal"><div><span class="stat"><b data-count="1">1</b><u>key</u></span><span class="sl">Owned solely by you</span></div><div class="bl"><span class="stat"><b data-count="0">0</b><u>windows</u></span><span class="sl">Visible from outside</span></div></div>
+    </div>
+    <div class="reveal" data-y="40"><div class="art"><div class="art-mesh"></div><canvas id="ascii-art" class="art-ascii" aria-hidden="true"></canvas><img class="art-mark plx" data-depth="1.2" src="./assets/mark-512.png" alt="" width="260" height="260"></div></div>
+  </div>
+</section>
+
+<section class="sec sec-handles">
+  <div class="container-k"><div class="handles">
+    <div class="tl a1 reveal" data-delay="0.1" data-amount="0.1" style="--fd:0s"><div class="tile-card spot"><i class="av av-lg">N</i><div class="tc-t"><b>@nightowl</b><small>Inbound &bull;&bull;&bull;&bull; USDC</small><div class="chips2"><i class="c2">S</i><i class="c2 c2x">X</i><span class="c2n">+2</span></div></div></div></div>
+    <div class="tl a2 reveal" data-delay="0.2" data-amount="0.1" style="--fd:0.4s"><div class="tile-card spot"><i class="av av-lg">K</i><div class="tc-t"><b>@kitefund</b><small>Invoice settled</small><div class="chips2"><i class="c2">S</i><i class="c2 c2x">X</i></div></div></div></div>
+    <div class="tl a3 reveal" data-delay="0.3" data-amount="0.1" style="--fd:0.8s"><div class="tile-card spot"><i class="av av-lg">M</i><div class="tc-t"><b>@mintmoth</b><small>Outbound &bull;&bull;&bull;&bull; SOL</small><div class="chips2"><i class="c2">S</i><i class="c2 c2x">X</i><span class="c2n">+3</span></div></div></div></div>
+    <div class="tl a4 reveal" data-delay="0.15" data-amount="0.1" style="--fd:0.2s"><div class="tile-card spot"><i class="av av-lg">L</i><div class="tc-t"><b>@lanternlp</b><small>Voucher open</small><div class="chips2"><i class="c2">S</i><i class="c2 c2x">X</i><span class="c2n">+1</span></div></div></div></div>
+    <div class="tl a5 reveal" data-delay="0.25" data-amount="0.1" style="--fd:0.6s"><div class="tile-card spot"><i class="av av-lg">B</i><div class="tc-t"><b>@basaltbid</b><small>Card topped up</small><div class="chips2"><i class="c2">S</i><i class="c2 c2x">X</i></div></div></div></div>
+    <div class="tl a6 reveal" data-delay="0.35" data-amount="0.1" style="--fd:1s"><div class="tile-card spot"><i class="av av-lg">Q</i><div class="tc-t"><b>@quillcap</b><small>Inbound &bull;&bull;&bull;&bull; USDC</small><div class="chips2"><i class="c2">S</i><i class="c2 c2x">X</i><span class="c2n">+2</span></div></div></div></div>
+    <div class="handles-mid">
+      <div class="reveal" data-y="24"><span class="label-k dot-label">Handle rails</span></div>
+      <h2 class="h3-k reveal" data-delay=".1" data-y="40">Name someone. Settle quietly.</h2>
+      <div class="reveal" data-delay=".2" data-y="24"><a class="btn-k btn-sm btn-neutral" data-link="x" href="#market">Track progress</a></div>
+      <div class="mob-grid">
+        <div class="mt reveal" data-delay="0.0" data-y="24"><i class="av av-sm">N</i><span><b>@nightowl</b><small>Inbound &bull;&bull;&bull;&bull; USDC</small></span></div>
+        <div class="mt reveal" data-delay="0.05" data-y="24"><i class="av av-sm">K</i><span><b>@kitefund</b><small>Invoice settled</small></span></div>
+        <div class="mt reveal" data-delay="0.1" data-y="24"><i class="av av-sm">M</i><span><b>@mintmoth</b><small>Outbound &bull;&bull;&bull;&bull; SOL</small></span></div>
+        <div class="mt reveal" data-delay="0.15" data-y="24"><i class="av av-sm">L</i><span><b>@lanternlp</b><small>Voucher open</small></span></div>
+        </div>
+    </div>
+  </div></div>
+</section>
+
+<section id="stack" class="sec">
+  <div class="container-k">
+    <div class="head-row">
+      <div class="head-l"><div class="reveal" data-y="24"><span class="label-k dot-label">Stack</span></div><h2 class="h2-k reveal" data-delay=".1" data-y="40">Wired into public rails</h2><p class="body-k reveal" data-delay=".2" data-y="40">Signers, exchanges, market data: converging.</p></div>
+    </div>
+    <div class="int-grid">
+      <article class="card-k spot p8 reveal"><i class="tile lg">S</i><h4>Solana</h4><p>Finalises each transfer.</p></article>
+      <article class="card-k spot p8 reveal"><i class="tile lg">D</i><h4>DexScreener</h4><p>Powers the board with prices and volume.</p></article>
+      <article class="card-k spot p8 reveal"><i class="tile lg">P</i><h4>pump.fun</h4><p>Supplies token art and curve data.</p></article>
+      <article class="card-k spot p8 reveal"><i class="tile lg">N</i><h4>PublicNode</h4><p>Open RPC for chain reads.</p></article>
+      <article class="card-k spot p8 reveal"><i class="tile lg">J</i><h4>Jupiter <em>Planned</em></h4><p>Routes swaps during funding.</p></article>
+      <article class="card-k spot p8 reveal"><i class="tile lg">P</i><h4>Phantom <em>Planned</em></h4><p>Approve using a browser wallet.</p></article>
+      <article class="card-k spot p8 reveal"><i class="tile lg">F</i><h4>Solflare <em>Planned</em></h4><p>Another signer option.</p></article>
+      <article class="card-k spot p8 reveal"><i class="tile lg">X</i><h4>X</h4><p>Handles resolve payment names.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="proof" class="sec">
+  <div class="container-k">
+    <div class="head">
+      <div class="reveal" data-y="24"><span class="label-k dot-label">Proof cards</span></div>
+      <h2 class="h2-k reveal" data-delay=".1" data-y="40">Publish results. Withhold amounts.</h2>
+      <p class="body-k reveal" data-delay=".2" data-y="40">Layout mock-ups. Every verification string leads to a confirmation view, nothing extra.</p>
+    </div>
+    <div class="proof-grid">
+      <div class="col2">
+        <article class="card-k spot pc reveal"><div><p class="sm">Exited $ORBIT</p><p class="pct">+88%</p><p class="mut">Duration: under an hour. Amount concealed.</p></div><div class="who"><i class="av">F</i><div><b>@fogline</b><small>Confirmed K9TD-5F</small></div></div></article>
+        <article class="card-k spot pc reveal"><div><p class="sm">Exited $SPARK</p><p class="pct">+28%</p><p class="mut">Duration: some hours. Amount concealed.</p></div><div class="who"><i class="av">T</i><div><b>@tidemark</b><small>Confirmed H2VC-8R</small></div></div></article>
+      </div>
+      <article class="card-k spot pc pc-big reveal"><div><p class="sm">Exited $EMBER</p><p class="pct big">+1,180%</p><p class="lead">Duration: one weekend. Wallet, amount and vault digits omitted.</p></div><div class="who"><i class="av">H</i><div><b>@hushcoil</b><small>Confirmed P6WN-3J</small></div></div></article>
+      <div class="col2">
+        <article class="card-k spot pc reveal"><div><p class="sm">Exited $MOSS</p><p class="pct">+340%</p><p class="mut">Duration: half a day. Amount concealed.</p></div><div class="who"><i class="av">R</i><div><b>@reedbank</b><small>Confirmed D7XM-1B</small></div></div></article>
+        <article class="card-k spot pc reveal"><div><p class="sm">Exited $PEBBLE</p><p class="pct">+63%</p><p class="mut">Duration: an afternoon. Amount concealed.</p></div><div class="who"><i class="av">W</i><div><b>@willowfx</b><small>Confirmed T4GY-9S</small></div></div></article>
+      </div>
+    </div>
+    <div class="stats-4 reveal">
+      <div><span class="stat"><b data-count="0">0</b><u>wallets</u></span><span class="sl">Exposed per card</span></div>
+      <div><span class="stat"><b data-count="1">1</b><u>sig</u></span><span class="sl">Per funding</span></div>
+      <div><span class="stat"><b data-count="100">100</b><u>%</u></span><span class="sl">Self-held</span></div>
+      <div><span class="stat"><b data-count="60">60</b><u>s</u></span><span class="sl">Board refresh loop</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="sec">
+  <div class="container-k">
+    <div class="head">
+      <div class="reveal" data-y="24"><span class="label-k dot-label">FAQ</span></div>
+      <h2 class="h2-k reveal" data-delay=".1" data-y="40">Plain answers, no fog</h2>
+      <p class="body-k reveal" data-delay=".2" data-y="40">Brief notes on keys, visibility, funding.</p>
+    </div>
+    <div class="faq reveal" id="faq-list">
+      <div class="qa"><h3><button type="button" aria-expanded="false"><span>Who controls the keys?</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button></h3><div class="ans"><p>Only you. Your wallet's signature derives the vault key; staff cannot move funds or request recovery phrases.</p></div></div>
+      <div class="qa"><h3><button type="button" aria-expanded="false"><span>Which traces remain public?</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button></h3><div class="ans"><p>Observers learn only that a vault exists. Figures, counterparties and holdings stay sealed.</p></div></div>
+      <div class="qa"><h3><button type="button" aria-expanded="false"><span>Why a decoy code?</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button></h3><div class="ans"><p>Typing it unlocks a staged empty vault, so coerced access reveals nothing.</p></div></div>
+      <div class="qa"><h3><button type="button" aria-expanded="false"><span>Can held tokens fund spending?</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button></h3><div class="ans"><p>Planned: pick any token, enter an amount, approve once while conversion runs behind it.</p></div></div>
+      <div class="qa"><h3><button type="button" aria-expanded="false"><span>Where does board data originate?</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button></h3><div class="ans"><p>DexScreener supplies boosts and pairs; pump.fun adds token art after our address goes public. Polling halts while this tab hides.</p></div></div>
+      <div class="qa"><h3><button type="button" aria-expanded="false"><span>Where is the contract address?</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button></h3><div class="ans"><p>The topmost bar prints it once posted by our official handle. Distrust copies from elsewhere.</p></div></div>
+    </div>
+  </div>
+</section>
+<section class="sec sec-cta" aria-labelledby="cta-title">
+  <div class="container-k">
+    <div class="cta-grid" id="cta-grid" aria-hidden="true"></div>
+    <div class="reveal cta-h" data-y="40"><h2 id="cta-title"><span class="faintline">Open ledgers expose you.</span><span>Offbank does not.</span></h2></div>
+    <div class="reveal cta-b" data-delay=".2" data-y="24"><a class="btn-k btn-lg btn-primary" data-link="x" href="#market">Join the signal</a></div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="container-k foot-cols">
+    <div><p class="fh">Explore</p><ul><li><a href="#market">Board</a></li><li><a href="#vault">Vault</a></li><li><a href="#features">Features</a></li></ul></div>
+    <div><p class="fh">Learn</p><ul><li><a href="#faq">FAQ</a></li><li><a href="#proof">Proof cards</a></li><li><a href="#stack">Stack</a></li></ul></div>
+    <div><p class="fh">Chain</p><ul><li><span class="plain">Solana mainnet</span></li><li><span class="plain">Open RPC</span></li></ul></div>
+    <div><p class="fh">Social</p><ul id="foot-social"></ul></div>
+  </div>
+  <div class="container-k foot-word" aria-hidden="true"><img src="./assets/mark-128.png" alt="" width="96" height="96"><span>Offbank</span></div>
+  <p class="foot-note">&copy; OFFBANK. Quiet by design.</p>
+</footer>
+
+<script type="module" src="./main.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+/* TOKENS: the only file allowed to hold colour literals.
+   Provenance (all sampled from brand/ and reference/ pixels, see scripts/prep-assets.py):
+   --c-orange   #ff511f  modal pixel of brand/LOGO OFFBANK PNG.png (287k of 1M sampled px)
+   --c-mark     #fefefe  modal mark pixel of the same file (white bars); also modal in the transparent PNG
+   --c-orange-2 #fd6b08  reference/OFFBANK 1.jpg.jpeg @ (1500,10)
+   --c-orange-3 #fb962e  reference/OFFBANK 1.jpg.jpeg @ (10,880)
+   --c-orange-d #fc5302  reference/OFFBANK 1.jpg.jpeg @ (10,10)
+   --c-paper    #fdfdfd  SAMPUL OFFBANK JPG @ (5,5), cover background
+   --c-ink      #5e341c  darkest chromatic pixel found in reference/OFFBANK 4.jpg.jpeg (text shadow)
+   Greys/lines/muted/soft fills are derived with color-mix() from these, never new literals. */
+:root{
+  --c-orange:#ff511f; --c-orange-2:#fd6b08; --c-orange-3:#fb962e; --c-orange-d:#fc5302;
+  --c-mark:#fefefe; --c-paper:#fdfdfd; --c-ink:#5e341c;
+
+  --color-accent:var(--c-orange);
+  --accent-2:var(--c-orange-2);
+  --accent-3:var(--c-orange-3);
+  --accent-deep:var(--c-orange-d);
+  --bg:var(--c-paper);
+  --bg-2:color-mix(in srgb,var(--c-ink) 2.5%,var(--c-mark));
+  --bg-3:color-mix(in srgb,var(--c-ink) 5%,var(--c-mark));
+  --ink:var(--c-ink);
+  --ink-2:color-mix(in srgb,var(--c-ink) 82%,var(--c-mark));
+  --muted:color-mix(in srgb,var(--c-ink) 66%,var(--c-mark));
+  --faint:color-mix(in srgb,var(--c-ink) 42%,var(--c-mark));
+  --line:color-mix(in srgb,var(--c-ink) 10%,var(--c-mark));
+  --line-2:color-mix(in srgb,var(--c-ink) 17%,var(--c-mark));
+  --accent-soft:color-mix(in srgb,var(--c-orange) 9%,var(--c-mark));
+  --white:var(--c-mark);
+  --shadow-ink:color-mix(in srgb,var(--c-ink) 28%,transparent);
+  --glow:color-mix(in srgb,var(--c-orange) 28%,transparent);
+
+  --ease-ui:cubic-bezier(.44,0,.56,1);
+  --ease-out:cubic-bezier(.12,.23,.17,.99);
+  --font-sans:Inter,ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}

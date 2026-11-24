@@ -1,0 +1,50 @@
+// Static gates. Anchors read the CURRENT register record at runtime, never a hard-coded state.
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { resolve, join, dirname } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const dist = resolve(root, process.argv[2] || 'dist');
+const { REGISTER } = await import(pathToFileURL(join(dist, 'register.js')).href);
+const html = readFileSync(join(dist, 'index.html'), 'utf8');
+const read = (f) => readFileSync(join(dist, f), 'utf8');
+const js = ['main.js', 'market.js', 'ui.js', 'register.js'].map(read).join('\n');
+const css = read('styles.css');
+const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<svg[\s\S]*?<\/svg>/g, ' ').replace(/<[^>]+>/g, ' ');
+const ca = REGISTER.ca;
+const gates = [];
+const gate = (name, ok, note = '') => gates.push({ name, ok: !!ok, note });
+
+gate('G01 CA slot present at top, first in header', /id="ca-strip"/.test(html) && html.indexOf('ca-strip') < html.indexOf('class="nav-row"'));
+gate(`G02 CA branch matches record (state=${ca.state})`, ca.state === 'stated' ? typeof ca.value === 'string' && ca.value.length >= 32 : ca.value === null, ca.state);
+gate('G03 CA inert path exists (disabled button when not stated)', /caBtn\.disabled = true/.test(js) && /aria-disabled/.test(js));
+gate('G04 CA copy path exists with feedback', /clipboard\.writeText/.test(js) && /Copied/.test(js));
+gate(`G05 X record link rule (state=${REGISTER.x.state})`, REGISTER.x.state === 'stated' ? /^https:\/\/x\.com\/[A-Za-z0-9_]+$/.test(REGISTER.x.url) : !REGISTER.x.url);
+gate(`G06 GitHub record link rule (state=${REGISTER.github.state})`, REGISTER.github.state === 'stated' ? !!REGISTER.github.url : REGISTER.github.url === null);
+gate('G07 both social icons rendered at all widths (no hide rule)', !/\.socials[^{]*\{[^}]*display:none/.test(css) && !/\.soc[^{]*\{[^}]*display:none/.test(css));
+gate('G08 socials icon-only (no text nodes in builder)', !/textContent\s*=\s*['"]X['"]/.test(js.split('/* footer social')[0]));
+gate('G09 address scanner exempts CA, never blanket-rejects 0x', /data-ca/.test(js) && /0x\[0-9a-fA-F\]\{40\}/.test(js) && !/startsWith\('0x'\)/.test(js));
+gate('G10 pump.fun fetched in parallel with DexScreener', /Promise\.allSettled\(\[jget\(M\.ownDex/.test(js) && /jget\(M\.ownPump/.test(js));
+const mk = read('market.js');
+const a0 = mk.indexOf('async function fetchTrending'), a1 = mk.indexOf('/* ---------- own token');
+gate('G11 market trending fetch never reads CA state', a0 > 0 && a1 > a0 && !/\bca\b|caValue|REGISTER\.ca/.test(mk.slice(a0, a1)));
+gate('G12 market source gate only on market record', /if \(!isStated\(REGISTER\.market\)\) return;/.test(js));
+gate('G13 solana filter + top 10 + totalAmount sort', /chainId !== 'solana'/.test(js) && /slice\(0, 10\)/.test(js) && /totalAmount/.test(js));
+gate('G14 poll 60s + visibility pause', /POLL_MS = 60000/.test(js) && /visibilitychange/.test(js));
+gate('G15 exponential backoff', /2 \*\* i/.test(js));
+gate('G16 reduced-motion fallbacks (css + js)', /prefers-reduced-motion:reduce/.test(css) && /prefers-reduced-motion: reduce/.test(js));
+gate('G17 ownPulse animation + reduced-motion none', /@keyframes ownPulse/.test(css) && /\.row\.own\{animation:none\}/.test(css));
+gate('G18 own row border-left accent', /border-left:2px solid var\(--color-accent\)/.test(css));
+gate('G19 logo in dist and referenced', existsSync(join(dist, 'assets/logo-512.png')) && html.includes('./assets/logo-512.png'));
+gate('G20 favicon svg 32x32', /viewBox="0 0 32 32" width="32" height="32"/.test(read('assets/favicon.svg')) && html.includes('./assets/favicon.svg'));
+const hexIn = [['styles.css', css], ['index.html', html], ['main.js', read('main.js')], ['market.js', read('market.js')], ['ui.js', read('ui.js')]]
+  .filter(([n, s]) => /(?<![&\w"\/-])#[0-9a-fA-F]{3,8}\b(?![^<]*>)/.test(s.replace(/href="#[^"]*"/g, '').replace(/&#\d+;|&#x[0-9a-f]+;/gi, '').replace(/<svg[\s\S]*?<\/svg>/g, '')) ).map(([n]) => n);
+gate('G21 colour literals only in tokens.css', hexIn.length === 0, hexIn.join());
+gate('G22 no dates / clock strings in visible text', !/(19|20)d{2}|d{1,2}:d{2}|(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*.?s+d|as of|checked|updated/i.test(text), '');
+gate('G23 no ch units', !/\d\s?ch\b/.test(css));
+gate('G24 no AI files in project', !['CLAUDE.md', '.claude'].some((f) => existsSync(join(root, f))));
+gate('G25 no AI attribution strings', !/claude|anthropic|generated with/i.test(html + js + css));
+const failed = gates.filter((g) => !g.ok);
+for (const g of gates) console.log((g.ok ? 'PASS ' : 'FAIL ') + g.name + (g.ok ? '' : '  <- ' + g.note));
+console.log(`\ngates: ${gates.length - failed.length}/${gates.length} pass  (CA state: ${ca.state})`);
+process.exit(failed.length ? 1 : 0);

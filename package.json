@@ -1,0 +1,14 @@
+{
+  "name": "offbank",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Offbank: quiet money on Solana.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs --out=dist",
+    "build:probe": "node scripts/build.mjs --out=.probe --ca=So11111111111111111111111111111111111111112",
+    "verify": "node scripts/verify.mjs && node scripts/audit-motion.mjs",
+    "serve": "node scripts/serve.mjs"
+  }
+}
